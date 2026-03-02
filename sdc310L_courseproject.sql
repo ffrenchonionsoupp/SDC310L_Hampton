@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2026 at 03:30 AM
+-- Generation Time: Mar 02, 2026 at 02:06 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,15 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Table structure for table `cart_items`
 --
 
-CREATE TABLE `cart` (
-  `cart_id` int(3) NOT NULL,
-  `shopper_id` int(3) NOT NULL,
-  `status` enum('active','checked_out','abandoned') NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+CREATE TABLE `cart_items` (
+  `id` int(11) NOT NULL,
+  `session_id` varchar(64) NOT NULL,
+  `product_id` varchar(3) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -48,29 +48,27 @@ CREATE TABLE `catalog` (
   `product_cost` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `shopper`
+-- Dumping data for table `catalog`
 --
 
-CREATE TABLE `shopper` (
-  `shopper_id` int(3) NOT NULL,
-  `first_name` varchar(25) NOT NULL,
-  `last_name` varchar(25) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `catalog` (`product_id`, `product_name`, `product_desc`, `product_cost`) VALUES
+('BRE', 'Bread Slice', 'This is exactly what it looks like. Bread slice (x1).', 0.50),
+('CHE', 'Cheese', 'Who cut the cheese? No, seriously. Hope you have a way to slice this!', 2.17),
+('MAY', 'Mayonnaise Jar', 'Past the expiration date, most likely. Good luck even getting it open!', 3.33),
+('TOM', 'Tomato', 'Surprise! This is for throwing, not eating (x1).', 1.00);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `cart`
+-- Indexes for table `cart_items`
 --
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`cart_id`);
+ALTER TABLE `cart_items`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uniq_session_product` (`session_id`,`product_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `catalog`
@@ -79,10 +77,24 @@ ALTER TABLE `catalog`
   ADD PRIMARY KEY (`product_id`,`product_name`);
 
 --
--- Indexes for table `shopper`
+-- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE `shopper`
-  ADD PRIMARY KEY (`shopper_id`);
+
+--
+-- AUTO_INCREMENT for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart_items`
+--
+ALTER TABLE `cart_items`
+  ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `catalog` (`product_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

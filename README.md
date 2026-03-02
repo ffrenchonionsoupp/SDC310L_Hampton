@@ -11,25 +11,25 @@ StoreApp is a simple PHP/MySQL web application for browsing a product catalog an
 
 This app follows the MVC structure for file layout:
 project/
-├── controller/
-│   └── add_to_cart.php
-│   └── cartinfo_controller.php
-│   └── cataloginfo_controller.php
-│   └── connect_controller.php
-├── model/
-│   ├── database.php
-│   └── cartinfo_db.php
-│   └── cataloginfo_db.php
-└── view/
-    ├── display_catalog.php
-    └── display_cart.php
-    └── display_carts.php <----- old file I kept in for referencing
-    └── conn_status.php
-    ├── assets/
-        └── bread.png
-        └── cheese.png
-        └── mayo.png
-        └── tomato.png
+- controller/
+-     add_to_cart.php
+-     cartinfo_controller.php
+-     cataloginfo_controller.php
+-     connect_controller.php
+- model/
+-     database.php
+-     cartinfo_db.php
+-     cataloginfo_db.php
+- view/
+-     display_catalog.php
+-     display_cart.php
+-     display_carts.php <----- old file I kept in for referencing
+-     conn_status.php
+-     assets/
+-         bread.png
+-         cheese.png
+-         mayo.png
+-         tomato.png
 
 Project Tasks:
 
